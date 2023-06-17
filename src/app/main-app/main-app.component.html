@@ -1,0 +1,160 @@
+<body>
+  <app-add hidden (onAddEvent)="getAllEmployees()" ></app-add>
+  <app-navbar #navBar (onSearchEvent)="filterEmployees($event)"></app-navbar>
+  <div class="d-md-flex justify-content-around flex-wrap">
+    <div *ngIf="!searchResults">No search Results found!</div>
+    <div class="card text-center" *ngFor="let employee of employees">
+      <img [src]="employee.imageUrl" alt="Avatar" />
+      <br />
+      <h3>{{ employee.name }}</h3>
+      <h6>{{ employee.jobTitle }}</h6>
+      <hr />
+      <p><strong>Email:</strong> {{ employee.email }}</p>
+      <p><strong>Phone:</strong> {{ employee.phone }}</p>
+      <div class="d-flex justify-content-around">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#edit"
+          (click)="onEditClick(employee)"
+        >
+          Edit
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#modalDelete"
+          (click)="onDeleteClick(employee)"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Modal Delete -->
+<div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Employee Delete</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete employee?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="dismissDelete">Close</button>
+        <button type="button" class="btn btn-primary" (click)="onDeleteEmployee()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Modal Edit -->
+  <div
+    class="modal fade"
+    id="edit"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            Edit Employee
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <form #editForm="ngForm" (ngSubmit)="onEditEmployee(editForm)">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="EditName" class="form-label">Name</label>
+              <input
+                type="text"
+                required
+                ngModel
+                name="editName"
+                #editName="ngModel"
+                class="form-control"
+                id="editName"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="EditJobTitle" class="form-label">Job Title</label>
+              <input
+                type="text"
+                required
+                ngModel
+                name="editJobTitle"
+                #editJobTitle="ngModel"
+                class="form-control"
+                id="editJobTitle"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="EditEmail" class="form-label">Email</label>
+              <input
+                type="text"
+                required
+                ngModel
+                name="editEmail"
+                #editEmail="ngModel"
+                class="form-control"
+                id="editEmail"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="EditPhone" class="form-label">Phone</label>
+              <input
+                type="text"
+                required
+                ngModel
+                name="editPhone"
+                #editPhone="ngModel"
+                class="form-control"
+                id="editPhone"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="EditImageUrl" class="form-label">Image Url</label>
+              <input
+                type="text"
+                ngModel
+                required
+                name="editImageUrl"
+                #editImageUrl="ngModel"
+                class="form-control"
+                id="editImageUrl"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="dismissEdit"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Confirm</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
